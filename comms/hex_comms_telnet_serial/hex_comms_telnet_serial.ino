@@ -21,6 +21,10 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266mDNS.h>
 
+const int LED_PIN = 5; // Thing's onboard, green LED
+const int ANALOG_PIN = A0; // The only analog pin on the Thing
+const int DIGITAL_PIN = 12; // Digital pin to be read
+
 //how many clients should be able to telnet to this ESP8266
 #define MAX_SRV_CLIENTS 1
 const char* ssid = "**********";
@@ -30,23 +34,49 @@ const char* ap_ssid = "HexaLR";
 const char* ap_pass = "hexahexa";
 const char* host = "hexapodo";
 
+const char WiFiAPPSK[] = "hexahexa";
+
 WiFiServer server(23);
 WiFiClient serverClients[MAX_SRV_CLIENTS];
 
-void setup() {
-  Serial1.begin(115200);
-//  WiFi.begin(ssid, password);
-  WiFi.softAP(ap_ssid, ap_pass);
-  MDNS.begin(host);
-  Serial1.print("\nConnecting to "); Serial1.println(ssid);
-  uint8_t i = 0;
-  while (WiFi.status() != WL_CONNECTED && i++ < 20) delay(500);
-//  if(i == 21){
-//    Serial1.print("Could not connect to"); Serial1.println(ssid);
-//    while(1) delay(500);
-//  }
-  //start UART and the server
+void setupWiFi()
+{
+  WiFi.mode(WIFI_AP);
+
+  // Do a little work to get a unique-ish name. Append the
+  // last two bytes of the MAC (HEX'd) to "ThingDev-":
+  uint8_t mac[WL_MAC_ADDR_LENGTH];
+  WiFi.softAPmacAddress(mac);
+  String macID = String(mac[WL_MAC_ADDR_LENGTH - 2], HEX) +
+                 String(mac[WL_MAC_ADDR_LENGTH - 1], HEX);
+  macID.toUpperCase();
+  String AP_NameString = "ThingDev-" + macID;
+
+  char AP_NameChar[AP_NameString.length() + 1];
+  memset(AP_NameChar, 0, AP_NameString.length() + 1);
+
+  for (int i=0; i<AP_NameString.length(); i++)
+    AP_NameChar[i] = AP_NameString.charAt(i);
+
+  WiFi.softAP(AP_NameChar, WiFiAPPSK);
+}
+
+void initHardware()
+{
   Serial.begin(115200);
+  Serial1.begin(115200);
+  pinMode(DIGITAL_PIN, INPUT_PULLUP);
+  pinMode(LED_PIN, OUTPUT);
+  digitalWrite(LED_PIN, HIGH);
+  // Don't need to set ANALOG_PIN as input, 
+  // that's all it can be.
+}
+
+void setup() {
+
+  initHardware();
+  setupWiFi();
+
   server.begin();
   server.setNoDelay(true);
   

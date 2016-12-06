@@ -72,7 +72,37 @@ class HexConnector:
 
     def test_comms(self, alpha, beta, gamma):
         pack = bytearray()
-        pack.append(int(alpha))
-        pack.append(int(beta))
-        pack.append(int(gamma))
+        fx = lambda x: int(-0.711*(-x - 180))
+        pack.append(fx(alpha))
+        pack.append(fx(beta))
+        pack.append(fx(gamma))
+        self.sock.send(pack)
+
+    def full_comms(self, a1=90,b1=90,g1=90, a2=90,b2=90,g2=90, a3=90,b3=90,g3=90, a4=90,b4=90,g4=90, a5=90,b5=90,g5=90, a6=90,b6=90,g6=90):
+        pack = bytearray()
+        fx = lambda x: int(-0.711*(-x - 180))
+        pack.append(fx(a1))
+        pack.append(fx(b1))
+        pack.append(fx(g1))
+
+        pack.append(fx(a2))
+        pack.append(fx(b2))
+        pack.append(fx(g2))
+
+        pack.append(fx(a3))
+        pack.append(fx(b3))
+        pack.append(fx(g3))
+
+        pack.append(fx(a4))
+        pack.append(fx(b4))
+        pack.append(fx(g4))
+
+        pack.append(fx(a5))
+        pack.append(fx(b5))
+        pack.append(fx(g5))
+
+        pack.append(fx(a6))
+        pack.append(fx(b6))
+        pack.append(fx(g6))
+
         self.sock.send(pack)

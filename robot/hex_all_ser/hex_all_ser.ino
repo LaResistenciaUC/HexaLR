@@ -99,7 +99,8 @@ int sum_arr(byte data[]) {
   return summ;
 }
 
-int qmcs(int deg) {
+int qmcs(int xdeg) {
+  int deg = 1.40625*xdeg - 180;
   return map(deg, 0, 180, LOWER_PULSE * 4, UPPER_PULSE * 4);
 }
 
