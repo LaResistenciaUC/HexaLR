@@ -1,0 +1,4 @@
+function [q1, q2, q3] = ik(x, y, z, L1, L2, L3)
+    q1 = atan2d(y, x);
+    cosq_3 = (x^2 + y^2 + (z-L1)^2 - L2^2 
+end
