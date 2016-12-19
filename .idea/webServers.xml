@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="dddf7c63-8dff-43c4-b2a2-5a83226c09f3" name="BBBAP" url="http://beaglebone.local">
+        <fileTransfer host="beaglebone.local" port="22" rootFolder="/home/debian" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

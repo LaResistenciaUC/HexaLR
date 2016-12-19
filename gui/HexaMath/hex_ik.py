@@ -37,7 +37,7 @@ def ik_angles(ik_feet_pos_x, ik_feet_pos_y, ik_feet_pos_z, leg_ik_leg_nr):
 
     ikfeetposxz = sqrt(pow(ik_feet_pos_x, 2) + pow(ik_feet_pos_z, 2))
 
-    iksw = sqrt(pow((ikfeetposxz - COXA_LENGTH), 2) + pow(ik_feet_pos_y, 2))
+    iksw = sqrt(pow(    (ikfeetposxz - COXA_LENGTH), 2) + pow(ik_feet_pos_y, 2))
 
     ikradiansfemurtibiaground = atan2(ikfeetposxz - COXA_LENGTH, ik_feet_pos_y)
 
