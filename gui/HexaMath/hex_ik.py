@@ -19,7 +19,7 @@ def ik_angles3(x,y,z,l1=COXA_LENGTH,l2=FEMUR_LENGTH,l3=TIBIA_LENGTH):
 
 
 def ik_angles2(x, y, z, l1, l2, l3,inv3=1,inv2=1):
-    q1 = atan2(y/x)
+    q1 = atan2(y,x)
     cosq3 = (x**2+y**2+z**2-l2**2-l3**2) / (2*l2*l3)
     q3 = atan2(inv3*sqrt(1-cosq3**2),cosq3)
     q2 = atan2(z,inv2*sqrt(x**2+y**2))-atan2(l3*sin(q3),l2+l3*cos(q3))
