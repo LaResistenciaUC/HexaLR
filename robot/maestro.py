@@ -1,8 +1,8 @@
 import serial
 #
-#---------------------------
+# ---------------------------
 # Maestro Servo Controller
-#---------------------------
+# ---------------------------
 #
 # Support for the Pololu Maestro line of servo controllers
 #
@@ -12,6 +12,8 @@ import serial
 # These functions provide access to many of the Maestro's capabilities using the
 # Pololu serial protocol
 #
+
+
 class Controller:
     # When connected via USB, the Maestro creates two virtual serial ports
     # /dev/ttyACM0 for commands and /dev/ttyACM1 for communications.
@@ -24,9 +26,9 @@ class Controller:
     # assumes.  If two or more controllers are connected to different serial
     # ports, or you are using a Windows OS, you can provide the port name.  For
     # example, '/dev/ttyACM2' or for Windows, something like 'COM3'.
-    def __init__(self,ttyStr='/dev/ttyACM0'):
+    def __init__(self, tty_str='/dev/ttyACM0'):
         # Open the command port
-        self.usb = serial.Serial(ttyStr)
+        self.usb = serial.Serial(tty_str)
         # Command lead-in and device 12 are sent for each Pololu serial commands.
         self.PololuCmd = chr(0xaa) + chr(0xc)
         # Track target position for each servo. The function isMoving() will
@@ -48,9 +50,9 @@ class Controller:
     # ***Note that the Maestro itself is configured to limit the range of servo travel
     # which has precedence over these values.  Use the Maestro Control Center to configure
     # ranges that are saved to the controller.  Use setRange for software controllable ranges.
-    def setRange(self, chan, min, max):
-        self.Mins[chan] = min
-        self.Maxs[chan] = max
+    def setRange(self, chan, min_val, max_val):
+        self.Mins[chan] = min_val
+        self.Maxs[chan] = max_val
 
     # Return Minimum channel range value
     def getMin(self, chan):
@@ -72,7 +74,7 @@ class Controller:
         if self.Mins[chan] > 0 and target < self.Mins[chan]:
             target = self.Mins[chan]
         # if Max is defined and Target is above, force to Max
-        if self.Maxs[chan] > 0 and target > self.Maxs[chan]:
+        if 0 < self.Maxs[chan] < target:
             target = self.Maxs[chan]
         #    
         lsb = target & 0x7f #7 bits for least significant byte
