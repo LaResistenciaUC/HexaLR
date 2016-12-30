@@ -1,4 +1,4 @@
-from gui.dynamics import trajectory_calc, ik_angles
+from robot.dynamics import trajectory_calc, ik_angles
 
 
 prev_angles = None

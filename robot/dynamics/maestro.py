@@ -1,4 +1,5 @@
 import serial
+from numpy import interp
 #
 # ---------------------------
 # Maestro Servo Controller
@@ -84,6 +85,10 @@ class Controller:
         self.usb.write(cmd)
         # Record Target value
         self.Targets[chan] = target
+
+    def setServo(self, chan, target):
+        qmcs = interp(target, [0, 180], [3000, 6000])
+        self.setTarget(chan, qmcs)
         
     # Set speed of channel
     # Speed is measured as 0.25microseconds/10milliseconds

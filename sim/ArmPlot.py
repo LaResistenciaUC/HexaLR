@@ -64,9 +64,9 @@ def trajectory_calc(a, b,mod_zyx=(0, 0, 0), right=True, samples=10, debug=True):
 
 
 temp=trajectory_calc(15,10,(-5,-15,0),debug=False, samples=20)
-x=temp[0]
-y=temp[1]
-z=temp[2]
+x=temp[0][5:15]
+y=temp[1][5:15]
+z=temp[2][5:15]
 error=0
 
 for i in range(len(x)):

@@ -3,11 +3,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def trajectory_calc(a, b, right=True, samples=10, mod_zyx=(0, 0, 0), debug=True):
+def trajectory_calc(a, b, right=True, samples=10, mod_zyx=(0, 0, 0), debug=False, drop=0):
     t = np.linspace(0, a, samples)
     x = [t_ + mod_zyx[0] for t_ in t]
     z = [(-1 if right else 1) * (b - ((4*b)/(a**2))*((t_-a/2)**2)) + mod_zyx[1] for t_ in t]
     y = [(1 if right else 1) * (b - ((4*b)/(a**2)) * ((t_-a/2)**2) + mod_zyx[2]) for t_ in t]
+    x = x[drop:samples - drop]
+    y = y[drop:samples - drop]
+    z = z[drop:samples - drop]
     if debug:
         mpl.rcParams['legend.fontsize'] = 10
         fig_ = plt.figure()
@@ -15,7 +18,7 @@ def trajectory_calc(a, b, right=True, samples=10, mod_zyx=(0, 0, 0), debug=True)
         ax_.plot(*(x, y, z), label='curve')
         ax_.legend()
         plt.show(block=True)
-    return x, y, z
+    return [[x_, y_, z_] for x_, y_, z_ in zip(x, y, z)]
 
 if __name__ == '__main__':
     mpl.rcParams['legend.fontsize'] = 10
